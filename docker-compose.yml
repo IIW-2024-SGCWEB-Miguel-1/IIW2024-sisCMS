@@ -5,7 +5,7 @@ services:
   db:
      image: mariadb:11
      restart: unless-stopped
-     enviroment:
+     environment:
        MariaDB_DATABASE: ${DB_NAME}
        MARIADB_USER: ${DB_USER}
        MARIADB_PASSWORD: {DB_PASSWORD}
@@ -22,7 +22,7 @@ services:
         restart: unless-stopped
         ports:
           - "8080:80"
-        enviroment:
+        environment:
         WORDPRESS_DB_HOST: db
         WORDPRESS_DB_NAME: ${DB_NAME}
         WORDPRESS_DB_USER: ${DB_USER}
@@ -31,4 +31,35 @@ services:
        - site-wordpress:/var/www/html
     depends_on:
        - db
+
+
+    #Etapa 3 - Joomla
+    Joomla:
+      image: joomla:5-php8.3-apache
+      restart: unless-stopped
+      ports:
+      - "8080:80"
+      environments:
+      JOOMLA_DB_HOST: db
+        JOOMLA_DB_NAME: ${DB_NAME}
+        JOOMLA_DB_USER: ${DB_USER}
+        JOOMLA_DB_PASSWORD: ${DB_PASSWORD}
+      volumes:
+      - site-joomla:/var/www/html
+      depends_on:
+      - db
+    #Etapa 4 - Qual serviço levantar
+    
+      
+      volumes:
+        dados-do-banco:
+        site-wordpress:  #ou site-joomla:
+        
+        
+
+
+
+        
+ 
+       
       
